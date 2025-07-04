@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="Graphite Target Platform" sequenceNumber="1751643790">
+<target name="Graphite Target Platform" sequenceNumber="1751646045">
   <locations>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.license.feature.group" version="0.0.0"/>
@@ -24,6 +24,11 @@
       <unit id="org.eclipse.sdk.ide" version="0.0.0"/>
       <unit id="org.eclipse.egit.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.ocl.all.sdk.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.gef.sdk.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.gef.common.sdk.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.gmf.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.gmf.runtime.notation.sdk.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.gmf.runtime.sdk.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.sirius.runtime.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.sirius.specifier.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.sirius.runtime.ide.ui.feature.group" version="0.0.0"/>
@@ -40,22 +45,6 @@
       <unit id="org.apache.commons.logging" version="0.0.0"/>
       <unit id="org.apache.commons.lang3" version="0.0.0"/>
       <unit id="com.google.inject" version="0.0.0"/>
-      <unit id="org.eclipse.gef.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gef.cloudio.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gef.cloudio.user.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gef.common.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gef.dot.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gef.dot.user.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gef.fx.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gef.geometry.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gef.graph.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gef.layout.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gef.mvc.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gef.zest.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gmf.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gmf.runtime.notation.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.gmf.runtime.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.zest.sdk.feature.group" version="0.0.0"/>
       <repository location="https://download.eclipse.org/releases/2022-12"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">

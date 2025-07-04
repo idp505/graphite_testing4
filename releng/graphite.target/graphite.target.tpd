@@ -21,6 +21,11 @@ location "https://download.eclipse.org/releases/2022-12" {
 	org.eclipse.sdk.ide lazy
 	org.eclipse.egit.feature.group lazy
 	org.eclipse.ocl.all.sdk.feature.group lazy
+	org.eclipse.gef.sdk.feature.group lazy
+	org.eclipse.gef.common.sdk.feature.group lazy
+	org.eclipse.gmf.feature.group lazy
+	org.eclipse.gmf.runtime.notation.sdk.feature.group lazy
+	org.eclipse.gmf.runtime.sdk.feature.group lazy
 	org.eclipse.sirius.runtime.feature.group lazy
 	org.eclipse.sirius.specifier.feature.group lazy
 	org.eclipse.sirius.runtime.ide.ui.feature.group lazy
@@ -37,22 +42,6 @@ location "https://download.eclipse.org/releases/2022-12" {
 	org.apache.commons.logging lazy
 	org.apache.commons.lang3 lazy
 	com.google.inject lazy
-	org.eclipse.gef.sdk.feature.group lazy
-	org.eclipse.gef.cloudio.sdk.feature.group lazy
-	org.eclipse.gef.cloudio.user.feature.group lazy
-	org.eclipse.gef.common.sdk.feature.group lazy
-	org.eclipse.gef.dot.sdk.feature.group lazy
-	org.eclipse.gef.dot.user.feature.group lazy
-	org.eclipse.gef.fx.sdk.feature.group lazy
-	org.eclipse.gef.geometry.sdk.feature.group lazy
-	org.eclipse.gef.graph.sdk.feature.group lazy
-	org.eclipse.gef.layout.sdk.feature.group lazy
-	org.eclipse.gef.mvc.sdk.feature.group lazy
-	org.eclipse.gef.zest.sdk.feature.group lazy
-	org.eclipse.gmf.feature.group lazy
-	org.eclipse.gmf.runtime.notation.sdk.feature.group lazy
-	org.eclipse.gmf.runtime.sdk.feature.group lazy
-	org.eclipse.zest.sdk.feature.group lazy
 }
 
 location "https://download.eclipse.org/acceleo/updates/releases/3.7/" {
