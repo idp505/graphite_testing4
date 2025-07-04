@@ -35,6 +35,11 @@ location "https://download.eclipse.org/releases/2022-12" {
 	org.apache.commons.logging lazy
 	org.apache.commons.lang3 lazy
 	com.google.inject lazy
+	org.eclipse.gef.sdk.feature.group lazy
+	org.eclipse.gmf.feature.group lazy
+	org.eclipse.gmf.runtime.notation.sdk.feature.group lazy
+	org.eclipse.gmf.runtime.sdk.feature.group lazy
+	org.eclipse.zest.sdk.feature.group lazy
 }
 
 location "https://download.eclipse.org/acceleo/updates/releases/3.7/" {
