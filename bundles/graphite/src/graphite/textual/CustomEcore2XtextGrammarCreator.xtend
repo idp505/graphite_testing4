@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.ecore.EEnum
 import org.eclipse.epsilon.eol.types.EolSequence
 import org.eclipse.epsilon.eol.types.EolTuple
-import org.eclipse.xtext.xtext.wizard.Ecore2XtextConfiguration
 import org.eclipse.xtext.xtext.wizard.WizardConfiguration
 import org.eclipse.xtext.xtext.wizard.ecore2xtext.Ecore2XtextGrammarCreator
 
