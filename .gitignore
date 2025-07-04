@@ -1,6 +1,8 @@
 bin/
 target/
-*.class
 .DS_Store
+*.class
+*.java._trace
+*.xtendbin
 *.polyglot..META-INF_MANIFEST.MF
 *.META-INF_MANIFEST.MF

@@ -293,6 +293,12 @@ version(s), and exceptions or additional permissions here}.&quot;
   You may add additional accurate notices of copyright ownership.
    </license>
 
+   <url>
+      <discovery label="Acceleo Installation" url="https://download.eclipse.org/acceleo/updates/releases/3.7/"/>
+      <discovery label="Eclipse Epsilon Installation" url="http://download.eclipse.org/epsilon/updates/2.5/"/>
+      <discovery label="Eclipse Emfatic Installation" url="http://download.eclipse.org/emfatic/update"/>
+   </url>
+
    <plugin
          id="graphite"
          version="0.0.0"/>
