@@ -1,10 +1,10 @@
 package graphite.textual;
 
-import com.google.common.base.Objects;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -89,7 +89,7 @@ public class CustomEcore2XtextGrammarCreator extends Ecore2XtextGrammarCreator {
               _builder.append(_nsURI_4);
               _builder.append("\" ");
               {
-                if (((UniqueNameUtil.uniqueName(it_2) != null) && (!Objects.equal(UniqueNameUtil.uniqueName(it_2), "")))) {
+                if (((UniqueNameUtil.uniqueName(it_2) != null) && (!Objects.equals(UniqueNameUtil.uniqueName(it_2), "")))) {
                   _builder.append("as ");
                   String _uniqueName = UniqueNameUtil.uniqueName(it_2);
                   _builder.append(_uniqueName);
@@ -263,7 +263,7 @@ public class CustomEcore2XtextGrammarCreator extends Ecore2XtextGrammarCreator {
         for(final EReference conti : _allContainmentReferences) {
           {
             String _name = conti.getName();
-            boolean _equals = Objects.equal(_name, derivedElementName);
+            boolean _equals = Objects.equals(_name, derivedElementName);
             if (_equals) {
               _builder.append("\t\t");
               CharSequence _assigment_1 = this.assigment(conti);
