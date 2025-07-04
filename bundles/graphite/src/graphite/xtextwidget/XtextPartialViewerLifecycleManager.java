@@ -97,13 +97,14 @@ public class XtextPartialViewerLifecycleManager extends AbstractEEFWidgetLifecyc
 				StyledText styledText = editor.getViewer().getTextWidget();
 				if (styledText != null) {
 					for (Listener listener : styledText.getListeners(ST.VerifyKey)) {
-						if (listener instanceof TypedListener) {
-							TypedListener typedListener = (TypedListener) listener;
-							if (typedListener.getEventListener() instanceof ActivationCodeTrigger) {
-								ActivationCodeTrigger activationCodeTrigger = (ActivationCodeTrigger)typedListener.getEventListener();
+						if (listener instanceof TypedListener) {	
+							Field field = TypedListener.class.getDeclaredField("eventListener");
+							field.setAccessible(true);
+							Object eventListener = field.get(listener);
+							if (eventListener instanceof ActivationCodeTrigger) {
 								Field actionsField = ActivationCodeTrigger.class.getDeclaredField("actions");
 								actionsField.setAccessible(true);
-								Map<String, IAction> actionsMap = (Map<String, IAction>) actionsField.get(activationCodeTrigger);
+								Map<String, IAction> actionsMap = (Map<String, IAction>) actionsField.get(eventListener);
 								actionsMap.put(ITextEditorActionConstants.REDO, new RenameRefactoringAction("Rename Element", controller, editor, access, grammarInjector));
 								actionsMap.get(ITextEditorActionConstants.REDO).setActionDefinitionId(WorkbenchData.RENAME_COMMAND);
 								break;	
