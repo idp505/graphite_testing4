@@ -1,0 +1,6 @@
+bin/
+target/
+*.class
+.DS_Store
+*.polyglot..META-INF_MANIFEST.MF
+*.META-INF_MANIFEST.MF
