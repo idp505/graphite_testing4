@@ -3,6 +3,7 @@ package graphite.xtextwidget;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.eef.EEFCustomWidgetDescription;
 import org.eclipse.eef.EEFWidgetDescription;
 import org.eclipse.eef.common.ui.api.IEEFFormContainer;
@@ -31,6 +32,9 @@ import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditor;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorModelAccess;
 import org.eclipse.xtext.ui.editor.model.IXtextDocumentContentObserver;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleException;
+
 import com.google.inject.Injector;
 
 import graphite.shared.DerivedObjectProperties;
@@ -64,7 +68,22 @@ public class XtextPartialViewerLifecycleManager extends AbstractEEFWidgetLifecyc
 
 	@Override
 	protected void createMainControl(Composite parent, IEEFFormContainer formContainer) {
+		
+		Bundle bundle = Platform.getBundle("org.eclipse.xtext.ui.shared");
+		try {
+			bundle.start(Bundle.START_TRANSIENT);
+		} catch (BundleException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Injector grammarInjector = DerivedObjectUtility.getGrammarInjector(derivedObjectProperties);
+		
+		//grammarInjector.getInstance().start(getBundle().getBundleContext());
+		
+		//org.eclipse.xtext.ui.shared.Activator.getInstance().start(getBundle().getBundleContext());
+
+		
 		FileExtensionProvider fileExtensionProvider = XtextUtility.register(grammarInjector);
 		grammarInjector.injectMembers(this);
 		EmbeddedResourceProvider resProvider = grammarInjector.getInstance(EmbeddedResourceProvider.class);

@@ -4,7 +4,7 @@ location "https://download.eclipse.org/cbi/updates/license" {
 	org.eclipse.license.feature.group lazy
 }
 
-location "https://download.eclipse.org/releases/2022-12" {
+location "https://download.eclipse.org/releases/2025-03" {
 	org.eclipse.e4.core.tools.feature.feature.group lazy
 	org.eclipse.eef.sdk.feature.feature.group lazy
 	org.eclipse.emf.sdk.feature.group lazy
