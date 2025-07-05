@@ -87,7 +87,7 @@ public class GrammarGeneratorJob extends Job {
 	 		
 	 		if (metamodelUnsatisfiedConstraints.size() == 0) {
 	 			
-	 			String metamodelAbsolutePath = metamodelFile.getLocation().toOSString();	
+	 			String metamodelAbsolutePath = metamodelFile.getLocation().toString();	
 	 			int modelIndex = metamodelAbsolutePath.indexOf("/model/");
 	 			String metamodelParentAbsolutePath = modelIndex != -1 ? metamodelAbsolutePath.substring(0, modelIndex) : metamodelAbsolutePath;
 	 			String generatedGrammarsDirectory = metamodelParentAbsolutePath + "/generated_grammars";
