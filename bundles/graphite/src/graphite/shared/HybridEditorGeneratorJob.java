@@ -208,7 +208,7 @@ public class HybridEditorGeneratorJob extends Job {
 			 		
 			 		String editorProjectName = ((GenModel)genmodel.getResource().getContents().get(0)).getEditorPluginID();
 			 		String metamodelProjectRelativePath = metamodelFile.getFullPath().toString();
-			 		String metamodelProjectAbsolutePath = metamodelFile.getLocation().toOSString();
+			 		String metamodelProjectAbsolutePath = metamodelFile.getLocation().toString();
 			 		String pluginXmlPath = metamodelProjectAbsolutePath.replace(metamodelProjectRelativePath, "/" + editorProjectName + "/plugin.xml");
 			 		
 					PlainXmlModel pluginXml = new PlainXmlModel();
@@ -242,7 +242,7 @@ public class HybridEditorGeneratorJob extends Job {
 			 		extendOdesignEolModule.getContext().getModelRepository().addModel(odesign);
 			 		extendOdesignEolModule.execute();
 			 		
-			 		EpsilonConsole.getInstance().getInfoStream().println("Successfully patched " + odesignFile.getLocation().toOSString() + " with a Graphite-specific Properties View containing smart textual editors");
+			 		EpsilonConsole.getInstance().getInfoStream().println("Successfully patched " + odesignFile.getLocation().toString() + " with a Graphite-specific Properties View containing smart textual editors");
 			 		
 					extendPluginEolModule = new EolModule();
 					extendPluginEolModule.parse(getClass().getResource("/epsilon/ExtendPlugin.eol").toURI());
