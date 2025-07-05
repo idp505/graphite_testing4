@@ -4,16 +4,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import graphite.shared.DerivedObjectProperties;
+import graphite.shared.HandlerUtilityService;
 import graphite.shared.Settings;
 import workload.Project;
 import workload.WorkloadPackage;
@@ -73,8 +72,8 @@ public class StoringDerivedElementsTests {
 		
 		try {
 			Settings.setStoreDerivedModelElements(false);
-			validModel.store();
-			String modelContent = Files.readString(Path.of(TestsData.MODEL_VALID));			
+			validModel.store();			
+			String modelContent = HandlerUtilityService.readNormalizedFile(Path.of(TestsData.MODEL_VALID));
 			assertFalse("First valid derived elements not stored", modelContent.contains(serializedDerivedElements1));
 			assertFalse("Last valid derived elements not stored", modelContent.contains(serializedDerivedElements2));
 		} catch (Exception e) {
@@ -105,7 +104,7 @@ public class StoringDerivedElementsTests {
 		try {
 			Settings.setStoreDerivedModelElements(false);
 			invalidModel.store();
-			String modelContent = Files.readString(Path.of(TestsData.MODEL_INVALID));
+			String modelContent = HandlerUtilityService.readNormalizedFile(Path.of(TestsData.MODEL_INVALID));
 			assertFalse("Valid derived elements not stored", modelContent.contains(serializedDerivedElements1));
 			assertTrue("Invalid derived elements stored", modelContent.contains(serializedDerivedElements2));
 		} catch (Exception e) {

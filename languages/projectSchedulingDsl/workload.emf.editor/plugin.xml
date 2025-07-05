@@ -33,11 +33,8 @@
             contributorClass="workload.presentation.WorkloadActionBarContributor">
       </editor>
    </extension>
-   <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="workload.impl.WorkloadEditorStartup">
-      </startup>
+   <extension point="org.eclipse.ui.startup">
+      <startup class="workload.impl.WorkloadEditorStartup"/>
    </extension>
 
 </plugin>
