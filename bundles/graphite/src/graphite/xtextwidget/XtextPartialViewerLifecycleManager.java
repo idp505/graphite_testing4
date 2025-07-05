@@ -3,7 +3,6 @@ package graphite.xtextwidget;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.eef.EEFCustomWidgetDescription;
 import org.eclipse.eef.EEFWidgetDescription;
 import org.eclipse.eef.common.ui.api.IEEFFormContainer;
@@ -17,6 +16,7 @@ import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.internal.SWTEventListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -32,9 +32,6 @@ import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditor;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorModelAccess;
 import org.eclipse.xtext.ui.editor.model.IXtextDocumentContentObserver;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleException;
-
 import com.google.inject.Injector;
 
 import graphite.shared.DerivedObjectProperties;
@@ -68,20 +65,9 @@ public class XtextPartialViewerLifecycleManager extends AbstractEEFWidgetLifecyc
 
 	@Override
 	protected void createMainControl(Composite parent, IEEFFormContainer formContainer) {
+		//Injector grammarInjector = DerivedObjectUtility.getGrammarInjector(derivedObjectProperties);
 		
-		Bundle bundle = Platform.getBundle("org.eclipse.xtext.ui.shared");
-		try {
-			bundle.start(Bundle.START_TRANSIENT);
-		} catch (BundleException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		Injector grammarInjector = DerivedObjectUtility.getGrammarInjector(derivedObjectProperties);
-		
-		//grammarInjector.getInstance().start(getBundle().getBundleContext());
-		
-		//org.eclipse.xtext.ui.shared.Activator.getInstance().start(getBundle().getBundleContext());
+		Injector grammarInjector = derivedObjectProperties.getInjector();
 
 		
 		FileExtensionProvider fileExtensionProvider = XtextUtility.register(grammarInjector);
@@ -116,23 +102,21 @@ public class XtextPartialViewerLifecycleManager extends AbstractEEFWidgetLifecyc
 				StyledText styledText = editor.getViewer().getTextWidget();
 				if (styledText != null) {
 					for (Listener listener : styledText.getListeners(ST.VerifyKey)) {
-						if (listener instanceof TypedListener) {	
-							Field field = TypedListener.class.getDeclaredField("eventListener");
-							field.setAccessible(true);
-							Object eventListener = field.get(listener);
+						if (listener instanceof TypedListener) {
+							SWTEventListener eventListener = (SWTEventListener) ((TypedListener) listener).getEventListener();
 							if (eventListener instanceof ActivationCodeTrigger) {
 								Field actionsField = ActivationCodeTrigger.class.getDeclaredField("actions");
 								actionsField.setAccessible(true);
 								Map<String, IAction> actionsMap = (Map<String, IAction>) actionsField.get(eventListener);
 								actionsMap.put(ITextEditorActionConstants.REDO, new RenameRefactoringAction("Rename Element", controller, editor, access, grammarInjector));
 								actionsMap.get(ITextEditorActionConstants.REDO).setActionDefinitionId(WorkbenchData.RENAME_COMMAND);
-								break;	
+								break;
 							}
 						}
 					}
 				}
 			}
-		}
+		} 
 		catch (Exception e) {
 			e.printStackTrace();
 		}
