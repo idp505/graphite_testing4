@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import graphite.textual.DerivedObjectUtility;
 
-public abstract class SiriusServices {
+public class SiriusServices {
 
 	public boolean isParsedString(EObject object, EStructuralFeature eStructuralFeature) {
     	return DerivedObjectUtility.isParsedString(object, eStructuralFeature);

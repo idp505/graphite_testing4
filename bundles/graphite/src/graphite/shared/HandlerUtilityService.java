@@ -1,5 +1,7 @@
 package graphite.shared;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -61,6 +63,11 @@ public class HandlerUtilityService {
 		IProject project = file.getProject();
 		IPath location = project.getLocation();
 		return (location != null) ? location.toOSString() : null;
+	}
+	
+	public static String readNormalizedFile(java.nio.file.Path path) throws IOException {
+		List<String> lines = Files.readAllLines(path);
+		return String.join("\n", lines);
 	}
 	
 }
