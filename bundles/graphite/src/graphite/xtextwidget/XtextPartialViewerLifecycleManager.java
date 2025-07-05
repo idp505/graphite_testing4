@@ -16,7 +16,6 @@ import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.internal.SWTEventListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -65,35 +64,37 @@ public class XtextPartialViewerLifecycleManager extends AbstractEEFWidgetLifecyc
 
 	@Override
 	protected void createMainControl(Composite parent, IEEFFormContainer formContainer) {
-		//Injector grammarInjector = DerivedObjectUtility.getGrammarInjector(derivedObjectProperties);
-		
-		Injector grammarInjector = derivedObjectProperties.getInjector();
-
-		
-		FileExtensionProvider fileExtensionProvider = XtextUtility.register(grammarInjector);
-		grammarInjector.injectMembers(this);
-		EmbeddedResourceProvider resProvider = grammarInjector.getInstance(EmbeddedResourceProvider.class);
-		resProvider.setFileExtensionProvider(fileExtensionProvider);
-		resProvider.setSiriusResourceSet(getSiriusResourceSet());
-		EmbeddedEditorFactory factory = grammarInjector.getInstance(EmbeddedEditorFactory.class);
-		editingContextAdapter = super.editingContextAdapter;
-		this.editor = factory.newEditor(resProvider).showErrorAndWarningAnnotations().withParent(parent);
-		this.access = editor.createPartialEditor();	
-		Control control = editor.getViewer().getControl();	
-		Composite borderComposite = new Composite((Composite) control.getParent(), SWT.BORDER);
-		control.setParent(borderComposite);	
-		GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-		gridData.heightHint = 150;
-		gridData.widthHint = 300;
-		gridData.verticalIndent = 8;
-		gridData.horizontalIndent = VALIDATION_MARKER_OFFSET;		
-		borderComposite.setLayoutData(gridData);
-		GridData controlGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		control.setLayoutData(controlGridData);
-		borderComposite.setLayout(new GridLayout(1, false));
-		borderComposite.getParent().layout(true, true);				
-		this.controller = new XtextPartialViewerController(description, variableManager, interpreter,editingContextAdapter, access);
-		addRenameRefactoring(controller, editor, access, grammarInjector);
+		try {
+			Injector grammarInjector = DerivedObjectUtility.getGrammarInjector(derivedObjectProperties);
+			FileExtensionProvider fileExtensionProvider = XtextUtility.register(grammarInjector);
+			grammarInjector.injectMembers(this);
+			EmbeddedResourceProvider resProvider = grammarInjector.getInstance(EmbeddedResourceProvider.class);
+			resProvider.setFileExtensionProvider(fileExtensionProvider);
+			resProvider.setSiriusResourceSet(getSiriusResourceSet());
+			EmbeddedEditorFactory factory = grammarInjector.getInstance(EmbeddedEditorFactory.class);
+			editingContextAdapter = super.editingContextAdapter;
+			this.editor = factory.newEditor(resProvider).showErrorAndWarningAnnotations().withParent(parent);
+			this.access = editor.createPartialEditor();	
+			Control control = editor.getViewer().getControl();	
+			Composite borderComposite = new Composite((Composite) control.getParent(), SWT.BORDER);
+			control.setParent(borderComposite);	
+			GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+			gridData.heightHint = 150;
+			gridData.widthHint = 300;
+			gridData.verticalIndent = 8;
+			gridData.horizontalIndent = VALIDATION_MARKER_OFFSET;		
+			borderComposite.setLayoutData(gridData);
+			GridData controlGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
+			control.setLayoutData(controlGridData);
+			borderComposite.setLayout(new GridLayout(1, false));
+			borderComposite.getParent().layout(true, true);				
+			this.controller = new XtextPartialViewerController(description, variableManager, interpreter,editingContextAdapter, access);
+			addRenameRefactoring(controller, editor, access, grammarInjector);
+		}
+		catch(Exception e) {
+			System.err.println("An unexpected error occured when instantiating the Xtext embedded editor(s). Make sure to use a Java version compatible with your Eclipse/Xtext version, and ensure GMF/GEF are installed in your Eclipse IDE.");
+			System.err.println(e);
+		}
 	}
 
 	private void addRenameRefactoring(XtextPartialViewerController controller, EmbeddedEditor editor, EmbeddedEditorModelAccess access, Injector grammarInjector) {
@@ -102,21 +103,23 @@ public class XtextPartialViewerLifecycleManager extends AbstractEEFWidgetLifecyc
 				StyledText styledText = editor.getViewer().getTextWidget();
 				if (styledText != null) {
 					for (Listener listener : styledText.getListeners(ST.VerifyKey)) {
-						if (listener instanceof TypedListener) {
-							SWTEventListener eventListener = (SWTEventListener) ((TypedListener) listener).getEventListener();
+						if (listener instanceof TypedListener) {	
+							Field field = TypedListener.class.getDeclaredField("eventListener");
+							field.setAccessible(true);
+							Object eventListener = field.get(listener);
 							if (eventListener instanceof ActivationCodeTrigger) {
 								Field actionsField = ActivationCodeTrigger.class.getDeclaredField("actions");
 								actionsField.setAccessible(true);
 								Map<String, IAction> actionsMap = (Map<String, IAction>) actionsField.get(eventListener);
 								actionsMap.put(ITextEditorActionConstants.REDO, new RenameRefactoringAction("Rename Element", controller, editor, access, grammarInjector));
 								actionsMap.get(ITextEditorActionConstants.REDO).setActionDefinitionId(WorkbenchData.RENAME_COMMAND);
-								break;
+								break;	
 							}
 						}
 					}
 				}
 			}
-		} 
+		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}

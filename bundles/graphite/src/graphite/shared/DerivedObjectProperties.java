@@ -13,8 +13,6 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.ISetup;
 
-import com.google.inject.Injector;
-
 import graphite.textual.XtextEObject;
 
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
@@ -156,10 +154,6 @@ public class DerivedObjectProperties {
 	
 	public boolean isMany() {
 		return derivedPropertyData.isMany();
-	}
-	
-	public Injector getInjector() {
-		return derivedPropertyData.getInjector();
 	}
 	
 }

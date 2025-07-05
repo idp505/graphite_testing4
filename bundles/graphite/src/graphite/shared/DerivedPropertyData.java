@@ -9,9 +9,6 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.xtext.ISetup;
-
-import com.google.inject.Injector;
-
 import graphite.textual.XtextUtility;
 
 
@@ -32,9 +29,7 @@ public class DerivedPropertyData {
 	protected Method derivedObjectGetter;
 	protected Method derivedObjectSetter;
 	protected Method parsedStringGetter;
-	protected Method parsedStringSetter;
-	protected Method getInjector;
-	protected Injector injector;
+	protected Method parsedStringSetter;	
 	protected Field derivedObjectField;
 	protected Field parsedStringField;
 	protected boolean isMany;
@@ -58,25 +53,11 @@ public class DerivedPropertyData {
 			this.grammarEntryRule = grammarEntryRule;
 			this.grammar = grammar;
 			this.grammarPlugin = grammarPlugin;
-			
-			this.getInjector = this.grammarPlugin.getClass().getMethod("getInjector", String.class);
-			this.getInjector.setAccessible(true);
-			this.injector = (Injector) this.getInjector.invoke(this.grammarPlugin, this.grammarName);	
-			
-			
 			this.referencedTypes = XtextUtility.getReferencedTypes(grammar);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public Injector getInjector() {
-		return injector;
-	}
-
-	public void setInjector(Injector injector) {
-		this.injector = injector;
 	}
 	
 	public String getDerivedObjectName() {
