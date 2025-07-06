@@ -67,7 +67,8 @@ public class HybridEditorGeneratorJob extends Job {
 		EvlModule metamodelEvlModule = null;
 		List<EvlModule> grammarEvlModules = null;
 		EolModule extendOdesignEolModule = null;
-		EolModule extendPluginEolModule = null;
+		EolModule extendModelPluginEolModule = null;
+		EolModule extendEditorPluginEolModule = null;
 		EgxModule egxModule = null;
 		
 		EpsilonConsole.getInstance().clear();
@@ -109,12 +110,12 @@ public class HybridEditorGeneratorJob extends Job {
 			Map<IFile, Collection<UnsatisfiedConstraint>> grammarsUnsatisfiedCritiques = new HashMap<IFile, Collection<UnsatisfiedConstraint>>();
 			boolean grammarsHaveUnsatisfiedConstraints = false;
 			boolean grammarsHaveUnsatisfiedCritiques = false;
-			String emfProjectPath = HandlerUtilityService.getProjectPath(metamodelFile) + "/";
+			String emfProjectPath = FilesUtility.getProjectPath(metamodelFile) + "/";
 			StringBuilder grammarsParameter = new StringBuilder();
 			
 			metamodelFile.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
 			
-			URI metamodelUri = HandlerUtilityService.getPlatformURI(metamodelFile);
+			URI metamodelUri = FilesUtility.getPlatformURI(metamodelFile);
 			EmfModel metamodel = new EmfModel();
 	 		metamodel.setMetamodelUris(Arrays.asList(EcorePackage.eINSTANCE.getNsURI()));
 	 		metamodel.setModelFileUri(metamodelUri);
@@ -131,7 +132,7 @@ public class HybridEditorGeneratorJob extends Job {
 	 		for (IFile grammarFile: grammarFiles) {
 	 			grammarFile.deleteMarkers(MarkerTypes.FAST_VALIDATION, true, IResource.DEPTH_ZERO);
 
-	 			URI grammarUri = HandlerUtilityService.getPlatformURI(grammarFile);
+	 			URI grammarUri = FilesUtility.getPlatformURI(grammarFile);
 	 			grammarUris.put(grammarFile, grammarUri);
 	 			
 		 		XtextModel grammar = new XtextModel();
@@ -152,7 +153,7 @@ public class HybridEditorGeneratorJob extends Job {
 	 		}
 
 	 		metamodelEvlModule = new EvlModule();
-	 		metamodelEvlModule.parse(getClass().getResource("/epsilon/MetamodelValidator.evl").toURI());
+	 		metamodelEvlModule.parse(getClass().getResource(EpsilonData.METAMODEL_VALIDATOR).toURI());
 	 		metamodelEvlModule.getContext().getModelRepository().addModel(metamodel);
 	 		metamodelEvlModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("grammars", grammarsParameter.toString()));
 	 		metamodelEvlModule.execute();
@@ -167,7 +168,7 @@ public class HybridEditorGeneratorJob extends Job {
 	 				XtextModel xtextModel = entry.getValue();
 	 				
 	 				EvlModule grammarEvlModule = new EvlModule();
-					grammarEvlModule.parse(getClass().getResource("/epsilon/ValidateGrammar.evl").toURI());
+					grammarEvlModule.parse(getClass().getResource(EpsilonData.GRAMMAR_VALIDATOR).toURI());
 					grammarEvlModule.getContext().getModelRepository().addModel(metamodel);
 					grammarEvlModule.getContext().getModelRepository().addModel(xtextModel);
 					grammarEvlModule.execute();
@@ -193,11 +194,11 @@ public class HybridEditorGeneratorJob extends Job {
 					    Collection<UnsatisfiedConstraint> critiques = entry.getValue();
 					    ErrorReportingUtility.createMarkers(critiques, MarkerTypes.FAST_VALIDATION, grammarFile, grammarUris.get(grammarFile));
 					}
-				}		
+				}
 	 			
 	 			if (!grammarsHaveUnsatisfiedConstraints) {
 					
-					URI genmodelUri = HandlerUtilityService.getPlatformURI(genmodelFile);
+					URI genmodelUri = FilesUtility.getPlatformURI(genmodelFile);
 					EmfModel genmodel = new EmfModel();
 			 		genmodel.setMetamodelUris(Arrays.asList(EcorePackage.eINSTANCE.getNsURI(), GenModelPackage.eINSTANCE.getNsURI()));
 			 		genmodel.setModelFileUri(genmodelUri);
@@ -206,19 +207,28 @@ public class HybridEditorGeneratorJob extends Job {
 			 		genmodel.setStoredOnDisposal(false);
 			 		genmodel.load();
 			 		
+			 		String modelProjectName = ((GenModel)genmodel.getResource().getContents().get(0)).getModelPluginID();
 			 		String editorProjectName = ((GenModel)genmodel.getResource().getContents().get(0)).getEditorPluginID();
 			 		String metamodelProjectRelativePath = metamodelFile.getFullPath().toString();
 			 		String metamodelProjectAbsolutePath = metamodelFile.getLocation().toString();
-			 		String pluginXmlPath = metamodelProjectAbsolutePath.replace(metamodelProjectRelativePath, "/" + editorProjectName + "/plugin.xml");
+			 		String modelPluginXmlPath = metamodelProjectAbsolutePath.replace(metamodelProjectRelativePath, "/" + modelProjectName + "/plugin.xml");
+			 		String editorPluginXmlPath = metamodelProjectAbsolutePath.replace(metamodelProjectRelativePath, "/" + editorProjectName + "/plugin.xml");
 			 		
-					PlainXmlModel pluginXml = new PlainXmlModel();
-					pluginXml.setFile(new File(pluginXmlPath));
-					pluginXml.setName("Plugin");
-					pluginXml.setReadOnLoad(true);
-					pluginXml.setStoredOnDisposal(true);
-					pluginXml.load();
-			 			
-			 		URI odesignUri = HandlerUtilityService.getPlatformURI(odesignFile);
+			 		PlainXmlModel modelPluginXml = new PlainXmlModel();
+					modelPluginXml.setFile(new File(modelPluginXmlPath));
+					modelPluginXml.setName("Plugin");
+					modelPluginXml.setReadOnLoad(true);
+					modelPluginXml.setStoredOnDisposal(true);
+					modelPluginXml.load();
+			 		
+					PlainXmlModel editorPluginXml = new PlainXmlModel();
+					editorPluginXml.setFile(new File(editorPluginXmlPath));
+					editorPluginXml.setName("Plugin");
+					editorPluginXml.setReadOnLoad(true);
+					editorPluginXml.setStoredOnDisposal(true);
+					editorPluginXml.load();
+	 			
+			 		URI odesignUri = FilesUtility.getPlatformURI(odesignFile);
 			 		EmfModel odesign = new EmfModel();
 			 		odesign.setMetamodelUris(Arrays.asList(DescriptionPackage.eINSTANCE.getNsURI(), PropertiesPackage.eINSTANCE.getNsURI()));
 			 		odesign.setModelFileUri(odesignUri);
@@ -227,7 +237,7 @@ public class HybridEditorGeneratorJob extends Job {
 			 		odesign.setStoredOnDisposal(true);
 			 		odesign.load();
 			 		
-			 		URI importedOdesignUri = URI.createURI(getClass().getResource("/epsilon/graphite_properties.odesign").toString());
+			 		URI importedOdesignUri = URI.createURI(getClass().getResource(EpsilonData.GRAPHITE_PROPERTIES).toString());
 			 		EmfModel importedOdesign = new EmfModel();
 			 		importedOdesign.setMetamodelUris(Arrays.asList(DescriptionPackage.eINSTANCE.getNsURI(), PropertiesPackage.eINSTANCE.getNsURI()));
 			 		importedOdesign.setModelFileUri(importedOdesignUri);
@@ -237,23 +247,31 @@ public class HybridEditorGeneratorJob extends Job {
 			 		importedOdesign.load();
 			 		
 			 		extendOdesignEolModule = new EolModule();
-			 		extendOdesignEolModule.parse(getClass().getResource("/epsilon/ExtendOdesign.eol").toURI());
+			 		extendOdesignEolModule.parse(getClass().getResource(EpsilonData.EXTEND_ODESIGN).toURI());
 			 		extendOdesignEolModule.getContext().getModelRepository().addModel(importedOdesign);
 			 		extendOdesignEolModule.getContext().getModelRepository().addModel(odesign);
 			 		extendOdesignEolModule.execute();
 			 		
-			 		EpsilonConsole.getInstance().getInfoStream().println("Successfully patched " + odesignFile.getLocation().toString() + " with a Graphite-specific Properties View containing smart textual editors");
+			 		EpsilonConsole.getInstance().getInfoStream().println("Successfully patched " + odesignFile.getLocation().toString() + " with a Graphite-specific Properties View");
 			 		
-					extendPluginEolModule = new EolModule();
-					extendPluginEolModule.parse(getClass().getResource("/epsilon/ExtendPlugin.eol").toURI());
-					extendPluginEolModule.getContext().getModelRepository().addModel(pluginXml);
-					extendPluginEolModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("startupClass", editorStartupClass));
-					extendPluginEolModule.execute(); 				 		
+			 		extendModelPluginEolModule = new EolModule();
+			 		extendModelPluginEolModule.parse(getClass().getResource(EpsilonData.EXTEND_MODEL_PLUGIN).toURI());
+			 		extendModelPluginEolModule.getContext().getModelRepository().addModel(metamodel);
+			 		extendModelPluginEolModule.getContext().getModelRepository().addModel(modelPluginXml);
+			 		extendModelPluginEolModule.execute();
 			 		
-					EpsilonConsole.getInstance().getInfoStream().println("Successfully patched " + pluginXmlPath + " with the 'org.eclipse.ui.startup' extension point");
+					EpsilonConsole.getInstance().getInfoStream().println("Successfully patched " + modelPluginXmlPath + " with Graphite-specific extension point(s)");
+ 		
+			 		extendEditorPluginEolModule = new EolModule();
+			 		extendEditorPluginEolModule.parse(getClass().getResource(EpsilonData.EXTEND_EDITOR_PLUGIN).toURI());
+			 		extendEditorPluginEolModule.getContext().getModelRepository().addModel(editorPluginXml);
+			 		extendEditorPluginEolModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("startupClass", editorStartupClass));
+			 		extendEditorPluginEolModule.execute();
+			 		
+					EpsilonConsole.getInstance().getInfoStream().println("Successfully patched " + editorPluginXmlPath + " with Graphite-specific extension point(s)");
 			 		
 					egxModule = new EgxModule(new File(".").getAbsolutePath());
-			 		egxModule.parse(getClass().getResource("/epsilon/HybridEditorGenerator.egx").toURI());
+			 		egxModule.parse(getClass().getResource(EpsilonData.HYBRID_EDITOR_GENERATOR).toURI());
 			 		egxModule.getContext().getModelRepository().addModel(metamodel);
 			 		egxModule.getContext().getModelRepository().addModel(genmodel);
 			 		egxModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("emfProjectPath", emfProjectPath));
@@ -313,8 +331,11 @@ public class HybridEditorGeneratorJob extends Job {
 			if (extendOdesignEolModule != null) {
 				extendOdesignEolModule.getContext().getModelRepository().dispose();
 			}
-			if (extendPluginEolModule != null) {
-				extendPluginEolModule.getContext().getModelRepository().dispose();
+			if (extendModelPluginEolModule != null) {
+				extendModelPluginEolModule.getContext().getModelRepository().dispose();
+			}
+			if (extendEditorPluginEolModule != null) {
+				extendEditorPluginEolModule.getContext().getModelRepository().dispose();
 			}
 			if (egxModule != null) {
 				egxModule.getContext().getModelRepository().dispose();

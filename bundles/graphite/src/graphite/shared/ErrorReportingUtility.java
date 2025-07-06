@@ -179,7 +179,7 @@ public class ErrorReportingUtility {
 			if (file == null && fileUri == null) {
 				EObject eObject = (EObject) unsatisfiedConstraint.getInstance();		
 				URI uri = EcoreUtil.getURI(eObject);
-			    fileOfMarker = HandlerUtilityService.getFile(uri);
+			    fileOfMarker = FilesUtility.getFile(uri);
 				location = eObject.eResource().getURIFragment(eObject);
 				uriAttribute = EcoreUtil.getURI(eObject).toString();
 			}

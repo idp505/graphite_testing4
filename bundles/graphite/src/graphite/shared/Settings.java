@@ -36,4 +36,8 @@ public class Settings {
 		return validateDiagramEditor;
 	}
 	
+	public static void setValidateDiagramEditor(boolean validateDiagramEditor) {
+		Settings.validateDiagramEditor = validateDiagramEditor;
+	}
+	
 }

@@ -66,7 +66,7 @@ public class GrammarGeneratorJob extends Job {
 			}
 			
 			IFile metamodelFile = selectedModels.get(ModelExtension.METAMODEL_EXTENSION).get(0);
- 			URI metamodelUri = HandlerUtilityService.getPlatformURI(metamodelFile);
+ 			URI metamodelUri = FilesUtility.getPlatformURI(metamodelFile);
 
  			metamodelFile.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
 			
@@ -80,7 +80,7 @@ public class GrammarGeneratorJob extends Job {
 	 		metamodel.load();
 	 		 		
 	 		metamodelEvlModule = new EvlModule();
-	 		metamodelEvlModule.parse(getClass().getResource("/epsilon/MetamodelValidator.evl").toURI());
+	 		metamodelEvlModule.parse(getClass().getResource(EpsilonData.METAMODEL_VALIDATOR).toURI());
 	 		metamodelEvlModule.getContext().getModelRepository().addModel(metamodel);
 	 		metamodelEvlModule.execute();
 	 		Collection<UnsatisfiedConstraint> metamodelUnsatisfiedConstraints = metamodelEvlModule.getContext().getUnsatisfiedConstraints();
@@ -93,7 +93,7 @@ public class GrammarGeneratorJob extends Job {
 	 			String generatedGrammarsDirectory = metamodelParentAbsolutePath + "/generated_grammars";
 	 			
 	 			grammarGenerationEolModule = new EolModule();
-	 			grammarGenerationEolModule.parse(getClass().getResource("/epsilon/GenerateGrammars.eol").toURI());
+	 			grammarGenerationEolModule.parse(getClass().getResource(EpsilonData.GRAMMAR_GENERATOR).toURI());
 	 			grammarGenerationEolModule.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
 	 			grammarGenerationEolModule.getContext().setOutputStream(EpsilonConsole.getInstance().getInfoStream());
 	 			grammarGenerationEolModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("generatedGrammarsDirectory", generatedGrammarsDirectory));

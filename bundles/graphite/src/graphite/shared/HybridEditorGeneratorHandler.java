@@ -18,7 +18,7 @@ public class HybridEditorGeneratorHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		final ISelection selection0 = HandlerUtil.getCurrentSelection(event);
 		if (selection0 instanceof IStructuredSelection) {
-			Map<String, List<IFile>> selectedModels = HandlerUtilityService.getSelectedModels((IStructuredSelection)selection0);
+			Map<String, List<IFile>> selectedModels = FilesUtility.getSelectedModels((IStructuredSelection)selection0);
 			HybridEditorGeneratorJob job = new HybridEditorGeneratorJob(selectedModels);
 			job.setUser(true);
 			job.schedule();

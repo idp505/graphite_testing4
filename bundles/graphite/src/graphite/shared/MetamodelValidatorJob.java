@@ -62,7 +62,7 @@ public class MetamodelValidatorJob extends Job {
 			}
 			
 			IFile metamodelFile = selectedModels.get(ModelExtension.METAMODEL_EXTENSION).get(0);
- 			URI metamodelUri = HandlerUtilityService.getPlatformURI(metamodelFile);
+ 			URI metamodelUri = FilesUtility.getPlatformURI(metamodelFile);
  			
 			metamodelFile.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
 			
@@ -76,7 +76,7 @@ public class MetamodelValidatorJob extends Job {
 	 		metamodel.load();
 	 		 		
 	 		metamodelEvlModule = new EvlModule();
-	 		metamodelEvlModule.parse(getClass().getResource("/epsilon/MetamodelValidator.evl").toURI());
+	 		metamodelEvlModule.parse(getClass().getResource(EpsilonData.METAMODEL_VALIDATOR).toURI());
 	 		metamodelEvlModule.getContext().getModelRepository().addModel(metamodel);
 	 		metamodelEvlModule.execute();
 	 		Collection<UnsatisfiedConstraint> metamodelUnsatisfiedConstraints = metamodelEvlModule.getContext().getUnsatisfiedConstraints();

@@ -76,8 +76,8 @@ public class GrammarValidatorJob extends Job {
 			
 			IFile metamodelFile = selectedModels.get(ModelExtension.METAMODEL_EXTENSION).get(0);
 			IFile grammarFile = selectedModels.get(ModelExtension.GRAMMAR_EXTENSION).get(0);
- 			URI metamodelUri = HandlerUtilityService.getPlatformURI(metamodelFile);
- 			URI grammarUri = HandlerUtilityService.getPlatformURI(grammarFile);
+ 			URI metamodelUri = FilesUtility.getPlatformURI(metamodelFile);
+ 			URI grammarUri = FilesUtility.getPlatformURI(grammarFile);
  			
 			metamodelFile.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
 			grammarFile.deleteMarkers(MarkerTypes.FAST_VALIDATION, true, IResource.DEPTH_ZERO);
@@ -92,7 +92,7 @@ public class GrammarValidatorJob extends Job {
 	 		metamodel.load();
 	 		 		
 	 		metamodelEvlModule = new EvlModule();
-	 		metamodelEvlModule.parse(getClass().getResource("/epsilon/MetamodelValidator.evl").toURI());
+	 		metamodelEvlModule.parse(getClass().getResource(EpsilonData.METAMODEL_VALIDATOR).toURI());
 	 		metamodelEvlModule.getContext().getModelRepository().addModel(metamodel);
 	 		metamodelEvlModule.execute();
 	 		Collection<UnsatisfiedConstraint> metamodelUnsatisfiedConstraints = metamodelEvlModule.getContext().getUnsatisfiedConstraints();
@@ -110,7 +110,7 @@ public class GrammarValidatorJob extends Job {
 		 		grammar.load();
 		 		
 		 		grammarEvlModule = new EvlModule();
-				grammarEvlModule.parse(getClass().getResource("/epsilon/ValidateGrammar.evl").toURI());
+				grammarEvlModule.parse(getClass().getResource(EpsilonData.GRAMMAR_VALIDATOR).toURI());
 				grammarEvlModule.getContext().getModelRepository().addModel(metamodel);
 				grammarEvlModule.getContext().getModelRepository().addModel(grammar);
 				grammarEvlModule.execute();

@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-public class HandlerUtilityService {
+public class FilesUtility {
 
 	public static URI getPlatformURI(IFile eclipseFile) {
 		return URI.createPlatformResourceURI(eclipseFile.getFullPath().toOSString(), true);
