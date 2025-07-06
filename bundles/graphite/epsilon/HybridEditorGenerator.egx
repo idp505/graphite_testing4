@@ -248,7 +248,7 @@ rule GrammarRuntimeModule
 	transform grammarDataItem: Tuple in: grammarData.values() {
 
 	pre {
-		var grammarProjectPath = emfProjectPath.replace(projectName, grammarDataItem.package);
+		var grammarProjectPath = emfProjectPath.replace("/" + projectName + "/", "/" + grammarDataItem.package + "/");	
 	}
 
 	parameters : Map {
