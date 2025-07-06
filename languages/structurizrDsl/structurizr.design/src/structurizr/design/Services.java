@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import graphite.graphical.SiriusServices;
 import structurizr.C4Element;
 import structurizr.CompositeCondition;
 import structurizr.ConditionComparisonOperation;
@@ -35,8 +34,8 @@ import structurizr.Technology;
 /**
  * The services class used by VSM.
  */
-@SuppressWarnings("unchecked")
-public class Services extends SiriusServices {
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class Services {
 	
 	
     public IdentifiableElement filterRelationshipNode(Relationship relationship, IdentifiableElement identifiableElement, ConditionElement excludeCondition) {

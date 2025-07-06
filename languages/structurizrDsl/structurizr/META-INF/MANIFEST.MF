@@ -14,7 +14,7 @@ Export-Package: structurizr,
 Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.core.runtime,
  org.eclipse.ui;bundle-version="3.201.200",
- org.eclipse.xtext;bundle-version="2.36.0",
+ org.eclipse.xtext;bundle-version="2.29.0",
  graphite;bundle-version="1.0.0",
  structurizr.expressions;bundle-version="1.0.0",
  structurizr.expressions.ui;bundle-version="1.0.0"

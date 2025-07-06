@@ -3037,6 +3037,7 @@
       </defaultLayer>
     </ownedRepresentations>
     <ownedJavaExtensions qualifiedClassName="structurizr.design.Services"/>
+    <ownedJavaExtensions qualifiedClassName="graphite.graphical.SiriusServices"/>
   </ownedViewpoints>
   <extensions xsi:type="properties:ViewExtensionDescription" name="Graphite Properties">
     <categories name="graphite">
