@@ -13,7 +13,7 @@ Export-Package: pcs,
  pcs.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.xtext;bundle-version="2.25.0",
+ org.eclipse.xtext;bundle-version="2.29.0",
  org.eclipse.ui,
  org.netapp.pcs.grammarVolumes;bundle-version="1.0.0",
  org.netapp.pcs.grammarVolumes.ui;bundle-version="1.0.0",
@@ -21,5 +21,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.netapp.pcs.grammarSnapMirror.ui;bundle-version="1.0.0",
  graphite;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Import-Package: org.eclipse.emf.validation.model,
- org.eclipse.emf.validation.service
+

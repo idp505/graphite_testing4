@@ -18,13 +18,11 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 public class FilesUtility {
 
 	public static URI getPlatformURI(IFile eclipseFile) {
-		return URI.createPlatformResourceURI(eclipseFile.getFullPath().toOSString(), true);
+		return URI.createPlatformResourceURI(eclipseFile.getFullPath().toString(), true);
 	}
 	
 	public static IFile getFile(URI uri) {
-      return uri.isPlatformResource() && uri.segmentCount() > 2 ? 
-        ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toPlatformString(true))) :
-        null;
+		return uri.isPlatformResource() && uri.segmentCount() > 2 ? ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toPlatformString(true))) : null;
     }
 	
 	public static Map<String, List<IFile>> getSelectedModels(IStructuredSelection selection) {
@@ -62,7 +60,7 @@ public class FilesUtility {
 	public static String getProjectPath(IFile file) {
 		IProject project = file.getProject();
 		IPath location = project.getLocation();
-		return (location != null) ? location.toOSString() : null;
+		return (location != null) ? location.toString() : null;
 	}
 	
 	public static String readNormalizedFile(java.nio.file.Path path) throws IOException {
