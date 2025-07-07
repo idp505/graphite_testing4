@@ -21,7 +21,6 @@ Condition returns StandardGrammar::Condition:
 ConditionElement returns StandardGrammar::ConditionElement:
 	CompositeCondition | BasicCondition;
 
-
 BasicCondition returns StandardGrammar::BasicCondition:
 	{StandardGrammar::BasicCondition}
 	'(' (left=ConditionVariable)? bincomp=BinaryComparisonOperation (right=ConditionExpr)? ')';

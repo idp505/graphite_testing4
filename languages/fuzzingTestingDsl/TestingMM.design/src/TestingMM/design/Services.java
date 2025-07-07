@@ -5,12 +5,11 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import TestingPackage.CampaignResultSet;
 import TestingPackage.TestCampaign;
-import graphite.graphical.SiriusServices;
 
 /**
  * The services class used by VSM.
  */
-public class Services extends SiriusServices {
+public class Services {
     
     /**
     * See http://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.sirius.doc%2Fdoc%2Findex.html&cp=24 for documentation on how to write service methods.
