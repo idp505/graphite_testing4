@@ -6,6 +6,6 @@ The following figure presents the hybrid graphical-textual DSL editor of the Str
 
 <table>
   <tr>
-    <td><img src="StructurizrDsl.png" width="48%"></td>
+    <td><img src="StructurizrDsl.png" width="45%"></td>
   </tr>
 </table>
