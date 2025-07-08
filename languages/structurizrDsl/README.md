@@ -4,5 +4,8 @@ The DSL's metamodel has been defined by mimicking the official language referenc
 
 The following figure presents the hybrid graphical-textual DSL editor of the Structurizr DSL. The hybrid DSL editor operates over a C4 semantic model containing *persons*, *tags*, *relationships*, *containers*, *views* and a *software system*. All metamodel properties except *includeExpression* are modelled graphically within the hybrid DSL editor. The *include* textual expression is specified in a smart textual editor that benefits from syntax-aware editing features, such as syntax highlighting, code completion and error markers. An auto-completion pop-up menu is shown, listing all *Tag* elements that can be referenced in that context (i.e., *mainPerson* and *optionalPerson*).
 
-<img src="StructurizrDsl.png" alt="Hybrid Graphical-Textual DSL Editor of the Structurizr DSL" width="40%" style="border: 1px solid #000;" />
-
+<table>
+  <tr>
+    <td><img src="StructurizrDsl.png" width="40%"></td>
+  </tr>
+</table>
