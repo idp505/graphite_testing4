@@ -6,6 +6,6 @@ The following figure depicts the hybrid graphical-textual DSL editor of the Fuzz
 
 <table>
   <tr>
-    <td><img src="FuzzingTestingDsl.png" width="80%"></td>
+    <td><img src="FuzzingTestingDsl.png" width="76%"></td>
   </tr>
 </table>
